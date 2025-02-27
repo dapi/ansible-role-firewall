@@ -1,0 +1,31 @@
+# Flush custom chanes and rules
+iptables -D INPUT -i {{ external_iface }} -j CUSTOM_INPUT
+
+iptables -F CUSTOM_INPUT
+iptables -X CUSTOM_INPUT
+
+iptables -F CUSTOM_STATES
+iptables -X CUSTOM_STATES
+
+{% if firewall_flush_rules_and_chains %}
+# Remove all rules and chains.
+iptables -t nat -F
+iptables -t mangle -F
+iptables -F
+iptables -X
+{% endif %}
+
+{% if firewall_enable_ipv6 %}
+if [ -x "$(which ip6tables 2>/dev/null)" ]; then
+ip6tables -F
+ip6tables -X
+
+ip6tables -D INPUT -i {{ external_iface }} -j CUSTOM_INPUT
+
+ip6tables -F CUSTOM_INPUT
+ip6tables -X CUSTOM_INPUT
+
+ip6tables -F CUSTOM_STATES
+ip6tables -X CUSTOM_STATES
+fi
+{% endif %}

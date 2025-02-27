@@ -2,10 +2,19 @@
 - name: Ensure iptables is present.
   package: name=iptables state=present
 
-- name: Flush iptables the first time playbook runs.
-  command: >
-    iptables -F
-    creates=/etc/firewall.bash
+# TODO Flush all except kube/cilium chains
+#- name: Flush iptables the first time playbook runs.
+  #command: >
+    #iptables -F
+    #creates=/etc/firewall.bash
+
+- name: Copy firewall stop script into place.
+  template:
+    src: "{{ firewall_stop_template | default(firewall_stop_template)}}"
+    dest: /etc/firewall-stop.bash
+    owner: root
+    group: root
+    mode: 0744
 
 - name: Copy firewall script into place.
   template:
