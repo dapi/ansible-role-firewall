@@ -18,7 +18,7 @@
 
 - name: Copy firewall init script into place.
   template:
-    src: firewall.init.j2
+    src: "{{ firewall_init_template | default(firewall_init_template)}}"
     dest: /etc/init.d/firewall
     owner: root
     group: root
@@ -27,7 +27,7 @@
 
 - name: Copy firewall systemd unit file into place (for systemd systems).
   template:
-    src: firewall.unit.j2
+    src: "{{ firewall_unit_template | default(firewall_unit_template)}}"
     dest: /etc/systemd/system/firewall.service
     owner: root
     group: root

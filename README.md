@@ -31,6 +31,8 @@ Whether to flush all rules and chains whenever the firewall is restarted. Set th
 
 ```yaml
 firewall_template: firewall.bash.j2
+firewall_init_template: firewall.init.j2
+firewall_unit_template: firewall.unit.j2
 ```
 
 The template to use when generating firewall rules.
